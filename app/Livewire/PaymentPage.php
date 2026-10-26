@@ -12,6 +12,16 @@ class PaymentPage extends Component
     public string $paymentMethod = 'cash';
     public string $message = '';
 
+    public function mount(): void
+    {
+        $ticket = request()->query('ticket');
+
+        if ($ticket) {
+            $this->ticketNumber = $ticket;
+            $this->findOrder();
+        }
+    }
+
     public function findOrder()
     {
         $this->order = Order::where('ticket_number', $this->ticketNumber)

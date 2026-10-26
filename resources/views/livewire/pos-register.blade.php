@@ -75,10 +75,11 @@
 
                 {{-- Checkout Button --}}
                 @if(!empty($cart))
-                    <a href="{{ route('payment') }}"
-                        class="block w-full bg-green-600 text-white py-3 rounded-lg text-center font-semibold hover:bg-green-700 transition-colors">
-                        Proceed to Payment
-                    </a>
+                    <button wire:click="checkout" wire:loading.attr="disabled"
+                        class="w-full bg-green-600 text-white py-3 rounded-lg text-center font-semibold hover:bg-green-700 transition-colors disabled:opacity-60">
+                        <span wire:loading.remove wire:target="checkout">Create Order &amp; Continue to Payment</span>
+                        <span wire:loading wire:target="checkout">Creating order…</span>
+                    </button>
                 @else
                     <button disabled
                         class="w-full bg-gray-300 text-gray-600 py-3 rounded-lg text-center font-semibold cursor-not-allowed">

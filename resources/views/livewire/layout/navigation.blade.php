@@ -15,7 +15,7 @@ new class extends Component {
     }
 }; ?>
 
-<nav x-data="{ open: false }" class="border-b border-[#e8e2d4] bg-[[#fffdf8]">
+<nav x-data="{ open: false }" class="border-b border-[#e8e2d4] bg-[#fffdf8]">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -58,7 +58,7 @@ new class extends Component {
                     @endcan
                     @can('access pos')
                         <x-nav-link :href="route('pos')" :active="request()->routeIs('pos')" wire:navigate>
-                            {{ __('Register') }}
+                            {{ __('POS Register') }}
                         </x-nav-link>
                     @endcan
                     @can('process payments')
@@ -67,12 +67,14 @@ new class extends Component {
                         </x-nav-link>
                     @endcan
                     @can('view order status')
-                        <x-nav-link :href="route('orders.status')" :active="request()->routeIs('orders.status')" wire:navigate>
-                            {{ __('Orders') }}
+                        <x-nav-link :href="route('orders.status')" :active="request()->routeIs('orders.status')"
+                            wire:navigate>
+                            {{ __('Active Orders') }}
                         </x-nav-link>
                     @endcan
                     @can('view kitchen display')
-                        <x-nav-link :href="route('kitchen.display')" :active="request()->routeIs('kitchen.display')" wire:navigate>
+                        <x-nav-link :href="route('kitchen.display')" :active="request()->routeIs('kitchen.display')"
+                            wire:navigate>
                             {{ __('Kitchen Display') }}
                         </x-nav-link>
                     @endcan
@@ -88,7 +90,8 @@ new class extends Component {
                             class="inline-flex items-center rounded-lg border border-[#e8e2d4] bg-[#fffdf8] px-3 py-2 text-sm font-medium leading-4 text-[#536354] transition hover:text-[#294d38] focus:outline-none">
                             <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name"
                                 x-on:profile-updated.window="name = $event.detail.name"></div>
-                            <span class="ms-2 rounded-full bg-[#eef5ec] px-2 py-1 text-xs font-semibold capitalize text-[#47734e]">{{ auth()->user()->getRoleNames()->first() ?? 'staff' }}</span>
+                            <span
+                                class="ms-2 rounded-full bg-[#eef5ec] px-2 py-1 text-xs font-semibold capitalize text-[#47734e]">{{ auth()->user()->getRoleNames()->first() ?? 'staff' }}</span>
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +152,8 @@ new class extends Component {
                 </x-responsive-nav-link>
             @endcan
             @can('manage users')
-                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')" wire:navigate>
+                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')"
+                    wire:navigate>
                     {{ __('Staff Management') }}
                 </x-responsive-nav-link>
             @endcan
@@ -160,16 +164,18 @@ new class extends Component {
             @endcan
             @can('process payments')
                 <x-responsive-nav-link :href="route('payment')" :active="request()->routeIs('payment')" wire:navigate>
-                    {{ __('Payments') }}
+                    {{ __('Take Payment') }}
                 </x-responsive-nav-link>
             @endcan
             @can('view order status')
-                <x-responsive-nav-link :href="route('orders.status')" :active="request()->routeIs('orders.status')" wire:navigate>
-                    {{ __('Orders') }}
+                <x-responsive-nav-link :href="route('orders.status')" :active="request()->routeIs('orders.status')"
+                    wire:navigate>
+                    {{ __('Active Orders') }}
                 </x-responsive-nav-link>
             @endcan
             @can('view kitchen display')
-                <x-responsive-nav-link :href="route('kitchen.display')" :active="request()->routeIs('kitchen.display')" wire:navigate>
+                <x-responsive-nav-link :href="route('kitchen.display')" :active="request()->routeIs('kitchen.display')"
+                    wire:navigate>
                     {{ __('Kitchen Display') }}
                 </x-responsive-nav-link>
             @endcan
@@ -182,7 +188,9 @@ new class extends Component {
                     x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name"
                     x-on:profile-updated.window="name = $event.detail.name"></div>
                 <div class="font-medium text-sm text-gray-500">{{ auth()->user()->email }}</div>
-                <div class="mt-1 text-xs font-semibold capitalize text-emerald-700">{{ auth()->user()->getRoleNames()->first() ?? 'staff' }} account</div>
+                <div class="mt-1 text-xs font-semibold capitalize text-emerald-700">
+                    {{ auth()->user()->getRoleNames()->first() ?? 'staff' }} account
+                </div>
             </div>
 
             <div class="mt-3 space-y-1">

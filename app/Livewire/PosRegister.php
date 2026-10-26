@@ -60,6 +60,51 @@ class PosRegister extends Component
         session(['pos_cart' => $this->cart]);
     }
 
+    public function checkout()
+    {
+        if (empty($this->cart)) {
+            return;
+        }
+
+        $order = DB::transaction(function () {
+            $items = collect($this->cart)->map(function ($item, $productId) {
+                $product = Product::where('is_available', true)->findOrFail($productId);
+
+                return [
+                    'product' => $product,
+                    'qty' => max(1, (int) ($item['qty'] ?? 1)),
+                ];
+            });
+
+            $subtotal = round($items->sum(fn ($item) => $item['product']->price * $item['qty']), 2);
+            $tax = round($subtotal * $this->taxRate, 2);
+            $order = Order::create([
+                'user_id' => auth()->id(),
+                'ticket_number' => 'T'.now()->format('ymd').strtoupper(\Illuminate\Support\Str::random(6)),
+                'status' => 'open',
+                'subtotal' => $subtotal,
+                'tax' => $tax,
+                'total' => $subtotal + $tax,
+            ]);
+
+            foreach ($items as $item) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item['product']->id,
+                    'qty' => $item['qty'],
+                    'unit_price' => $item['product']->price,
+                ]);
+            }
+
+            return $order;
+        });
+
+        $this->cart = [];
+        session()->forget('pos_cart');
+
+        return redirect()->route('payment', ['ticket' => $order->ticket_number]);
+    }
+
     public function getSubtotalProperty(): float
     {
         return collect($this->cart)->sum(fn($item) => $item['price'] * $item['qty']);

@@ -28,5 +28,23 @@ class RoleSeeder extends Seeder
         );
 
         $admin->assignRole('admin');
+        $cashier = User::firstOrCreate(
+            ['email' => 'cashier@example.com'],
+            [
+                'name' => 'Cashier',
+                'password' => bcrypt('password'),
+            ]
+        );
+
+        $cashier->assignRole('cashier');
+        $kitchen = User::firstOrCreate(
+            ['email' => 'kitchen@example.com'],
+            [
+                'name' => 'Kitchen',
+                'password' => bcrypt('password'),
+            ]
+        );
+
+        $kitchen->assignRole('kitchen');
     }
 }
